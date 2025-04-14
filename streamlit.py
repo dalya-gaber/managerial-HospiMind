@@ -43,7 +43,7 @@ model1, scaler = load_model1_and_scaler()
 
 @st.cache_resource
 def load_model2():
-    model_sh = joblib.load("rf_model_shortage.pkl")
+    model_sh = joblib.load("shortage_risk_logistic_model.pkl")
     return model_sh
 
 model_sh = load_model2()
@@ -199,11 +199,8 @@ def predict_shortage(current_stock, min_required, avg_usage_per_day, restock_lea
 
     # Create feature vector and scale
     feature_df = pd.DataFrame([{
-                "Current_Stock": current_stock,
-                "Min_Required": min_required,
-                "Avg_Usage_Per_Day": avg_usage_per_day,
-                "Restock_Lead_Time": restock_lead_time,
-                "Reorder_Point": (avg_usage_per_day * restock_lead_time) + (min_required * 0.5)
+                "Reorder_Point": (avg_usage_per_day * restock_lead_time) + (min_required * 0.5),
+                "Current_Stock": current_stock
     }])
 
     # Predict using the loaded model
